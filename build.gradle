@@ -1,22 +1,16 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '4.0.3'
+	id 'org.springframework.boot' version '3.3.5'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.javanauta'
 version = '0.0.1-SNAPSHOT'
-description = 'Demo project for Spring Boot'
+description = 'API de Tarefas'
 
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
 	}
 }
 
@@ -25,24 +19,45 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "2025.1.0")
+	set('springCloudVersion', "2023.0.3")
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
-	implementation("io.jsonwebtoken:jjwt-impl:0.12.6")
-	implementation("io.jsonwebtoken:jjwt-jackson:0.12.6")
 
+	// 🌐 WEB (JSON + Jackson + REST)
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// 🔐 SECURITY
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// 🍃 MONGO
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	// ☁️ FEIGN (microserviços)
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	// 🔑 JWT
+	implementation "io.jsonwebtoken:jjwt-api:0.12.6"
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:0.12.6"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:0.12.6"
+
+	// 🔄 MAPSTRUCT
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+	// 🧠 LOMBOK
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-data-mongodb-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// 🔗 Integra Lombok + MapStruct
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+	// 🕒 SUPORTE A DATAS (LocalDateTime)
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+	// 🧪 TESTES
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 dependencyManagement {
